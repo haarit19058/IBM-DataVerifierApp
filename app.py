@@ -6,15 +6,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+
+handlers = [logging.StreamHandler()] 
+if not os.getenv("VERCEL"):
+    handlers.append(logging.FileHandler("audit.log"))
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] - %(message)s',
-    handlers=[
-    logging.FileHandler("audit.log"), 
-    logging.StreamHandler()           
-    ]
+    handlers=handlers
 )
 logger = logging.getLogger(__name__)
+
+
+
 
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
