@@ -1,9 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from pymongo import MongoClient
 import os
+import logging # 1. Import Logging
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# --- 2. Configure Logging ---
+# This sets up logging to both a file (audit.log) and the Console (for Vercel)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] - %(message)s',
+    handlers=[
+        logging.FileHandler("audit.log"), # Saves to a file locally
+        logging.StreamHandler()           # Prints to terminal (Required for Cloud/Vercel logs)
+    ]
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
@@ -23,6 +36,28 @@ def search_case():
     if case_id:
         return redirect(url_for('review_case', case_id=case_id))
     return redirect(url_for('index'))
+
+@app.route("/discard/<int:case_id>", methods=['GET', 'POST'])
+def discard_case(case_id):
+    prev_id = case_id - 1 if case_id > 0 else None
+    next_id = case_id + 1
+    
+    if request.method == 'POST':
+        if collection.count_documents({"case_id": str(case_id)}) > 0:
+            collection.delete_one({"case_id":str(case_id)})
+            
+            # --- Log the Deletion ---
+            logger.warning(f"DELETE ACTION | Case ID: {case_id} | Status: PERMANENTLY DELETED")
+            
+            flash(f"✅ Case {case_id} Deleted Successfully", "success")
+        else:
+            # --- Log the Failed Attempt ---
+            logger.error(f"DELETE FAILED | Case ID: {case_id} | Reason: Not Found")
+            
+            flash(f"Cannot Delete. Case {case_id} does not exist.", "danger")
+    
+    return redirect(url_for('review_case', case_id=case_id))
+
 
 @app.route("/review/<int:case_id>", methods=['GET', 'POST'])
 def review_case(case_id):
@@ -61,8 +96,15 @@ def review_case(case_id):
             }
 
             collection.update_one({"case_id": str(case_id)}, {"$set": update_data})
+            
+            # --- Log the Update with the Data Payload ---
+            logger.info(f"UPDATE ACTION | Case ID: {case_id} | Payload: {update_data}")
+            
             flash(f"✅ Case {case_id} Saved Successfully", "success")
         else:
+            # --- Log Missing Case Attempt ---
+            logger.error(f"UPDATE FAILED | Case ID: {case_id} | Reason: Not Found")
+            
             flash(f"Cannot save. Case {case_id} does not exist.", "danger")
         
         return redirect(url_for('review_case', case_id=case_id))
@@ -73,4 +115,6 @@ def review_case(case_id):
     return render_template("review.html", data=data, case_id=case_id, next_id=next_id, prev_id=prev_id)
 
 if __name__ == "__main__":
+    # Log startup
+    logger.info("Application Starting...")
     app.run(debug=True)

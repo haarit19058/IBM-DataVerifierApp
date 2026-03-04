@@ -1,0 +1,24 @@
+2026-03-04 20:56:36,047 [INFO] - Application Starting...
+2026-03-04 20:56:36,057 [INFO] - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-04 20:56:36,057 [INFO] - [33mPress CTRL+C to quit[0m
+2026-03-04 20:56:36,057 [INFO] -  * Restarting with stat
+2026-03-04 20:56:36,330 [INFO] - Application Starting...
+2026-03-04 20:56:36,336 [WARNING] -  * Debugger is active!
+2026-03-04 20:56:36,336 [INFO] -  * Debugger PIN: 125-246-871
+2026-03-04 20:56:57,773 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:56:57] "[32mGET / HTTP/1.1[0m" 302 -
+2026-03-04 20:56:58,011 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:56:58] "GET /review/0 HTTP/1.1" 200 -
+2026-03-04 20:57:00,363 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:57:00] "[32mPOST /search HTTP/1.1[0m" 302 -
+2026-03-04 20:57:00,408 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:57:00] "GET /review/12 HTTP/1.1" 200 -
+2026-03-04 20:57:03,349 [WARNING] - DELETE ACTION | Case ID: 12 | Status: PERMANENTLY DELETED
+2026-03-04 20:57:03,351 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:57:03] "[32mPOST /discard/12 HTTP/1.1[0m" 302 -
+2026-03-04 20:57:03,395 [INFO] - 127.0.0.1 - - [04/Mar/2026 20:57:03] "GET /review/12 HTTP/1.1" 200 -
+2026-03-04 20:57:47,756 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-04 20:57:48,103 [INFO] -  * Restarting with stat
+2026-03-04 20:57:48,428 [WARNING] -  * Debugger is active!
+2026-03-04 20:57:48,428 [INFO] -  * Debugger PIN: 125-246-871
+2026-03-04 20:57:50,439 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-04 20:57:50,974 [INFO] -  * Restarting with stat
+2026-03-04 20:57:51,238 [INFO] - Application Starting...
+2026-03-04 20:57:51,245 [WARNING] -  * Debugger is active!
+2026-03-04 20:57:51,245 [INFO] -  * Debugger PIN: 125-246-871

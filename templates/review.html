@@ -173,6 +173,37 @@
         .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 15px rgba(37, 99, 235, 0.4); }
         .btn-save:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
 
+        /* Add this to your existing CSS */
+        .btn-discard {
+            background: #ef4444; /* Red */
+            color: white;
+            border: none;
+            height: 48px; 
+            padding: 0 25px;
+            border-radius: 100px;
+            font-weight: 600; 
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+            transition: transform 0.2s, background 0.2s;
+            margin-right: 10px; /* Space between Discard and Save */
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-discard:hover {
+            background: #dc2626; /* Darker Red */
+            transform: translateY(-2px);
+        }
+
+        .btn-discard:disabled {
+            background: #ccc;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
     </style>
 </head>
 <body>
@@ -290,24 +321,34 @@
                 </div>
             {% endif %}
 
-        </div> <div class="floating-dock">
-            
-            {% if prev_id is not none %}
-                <a href="{{ url_for('review_case', case_id=prev_id) }}" class="btn-nav" title="Previous Case">
-                    &larr;
-                </a>
-            {% else %}
-                <a href="#" class="btn-nav disabled">&larr;</a>
-            {% endif %}
+        <div class="floating-dock">
+    
+    {% if prev_id is not none %}
+        <a href="{{ url_for('review_case', case_id=prev_id) }}" class="btn-nav" title="Previous Case">
+            &larr;
+        </a>
+    {% else %}
+        <a href="#" class="btn-nav disabled">&larr;</a>
+    {% endif %}
 
-            <button type="submit" class="btn-save" {% if not data %} disabled {% endif %}>
-                Save Changes
+    <div style="display: flex; align-items: center;">
+            
+            <button type="submit" 
+                    class="btn-discard" 
+                    formaction="{{ url_for('discard_case', case_id=case_id) }}"
+                    {% if not data %} disabled {% endif %}>
+                🗑️ Discard
             </button>
 
-            <a href="{{ url_for('review_case', case_id=next_id) }}" class="btn-nav" title="Next Case">
-                &rarr;
-            </a>
+            <button type="submit" class="btn-save" {% if not data %} disabled {% endif %}>
+                💾 Save Changes
+            </button>
         </div>
+
+        <a href="{{ url_for('review_case', case_id=next_id) }}" class="btn-nav" title="Next Case">
+            &rarr;
+        </a>
+    </div>
 
     </form>
 
