@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Case {{ case_id }}</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --surface: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding-bottom: 120px; /* Space for floating footer */
+        }
+
+        /* HEADER */
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand { font-weight: 800; font-size: 1.25rem; color: var(--primary); letter-spacing: -0.5px; }
+        
+        .search-group { display: flex; gap: 8px; }
+        .search-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #f9fafb;
+            width: 150px;
+            transition: width 0.2s;
+        }
+        .search-group input:focus { width: 200px; outline: 2px solid var(--primary); border-color: transparent; }
+        .btn-go {
+            background: var(--text-dark); color: white; border: none;
+            padding: 0 16px; border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            position: relative;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+        .empty-icon { font-size: 4rem; margin-bottom: 20px; display: block; opacity: 0.3; }
+
+        /* FLASH MESSAGES */
+        .flash {
+            padding: 12px 16px; border-radius: 8px; margin-bottom: 24px;
+            font-weight: 500; text-align: center; font-size: 0.95rem;
+        }
+        .flash.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .flash.danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* TYPOGRAPHY */
+        h2 { margin: 0 0 5px 0; font-size: 1.8rem; letter-spacing: -0.02em; }
+        .case-meta { color: var(--text-light); font-size: 0.9rem; margin-bottom: 30px; display: block; }
+        
+        h3 {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--text-light); border-bottom: 1px solid var(--border);
+            padding-bottom: 10px; margin: 30px 0 20px 0;
+        }
+
+        /* FORMS */
+        .form-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+        }
+        .full-width { grid-column: span 2; }
+
+        label {
+            display: block; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-light); margin-bottom: 8px;
+        }
+
+        input, select, textarea {
+            width: 100%; padding: 10px 12px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background-color: #f9fafb; font-size: 0.95rem; font-family: inherit;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none; border-color: var(--primary); background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+        /* RADIO BUTTONS */
+        .radio-box {
+            display: flex; gap: 20px; padding: 10px 0;
+        }
+        .radio-label {
+            display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500;
+        }
+        input[type="radio"] { width: auto; transform: scale(1.2); cursor: pointer; }
+
+        /* FLOATING FOOTER NAV */
+        .floating-dock {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 100px; /* Pill shape */
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 100;
+        }
+
+        .btn-nav {
+            background: white; border: 1px solid var(--border);
+            color: var(--text-dark);
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--text-light); }
+        .btn-nav.disabled { opacity: 0.3; pointer-events: none; }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white; border: none;
+            height: 48px; padding: 0 40px;
+            border-radius: 100px;
+            font-weight: 600; font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 15px rgba(37, 99, 235, 0.4); }
+        .btn-save:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">DataVerifier</div>
+        <form class="search-group" action="/search" method="POST">
+            <input type="number" name="search_id" placeholder="ID..." required>
+            <button class="btn-go">Go</button>
+        </form>
+    </header>
+
+    <form method="POST">
+        <div class="container">
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% if data %}
+                <h2>Case #{{ case_id }}</h2>
+                <span class="case-meta">Last updated on {{ data.log_book_entry_date }}</span>
+
+                <h3>Machine Details</h3>
+                <div class="form-grid">
+                    <div>
+                        <label>Motor ID</label>
+                        <input type="text" name="motor_id" value="{{ data.motor_id }}">
+                    </div>
+                    <div>
+                        <label>Rating (kW)</label>
+                        <input type="number" step="0.01" name="rating_kw" value="{{ data.rating_kw }}">
+                    </div>
+                    <div>
+                        <label>Area</label>
+                        <input type="text" name="area" value="{{ data.area }}">
+                    </div>
+                    <div>
+                        <label>Line</label>
+                        <input type="text" name="line" value="{{ data.line }}">
+                    </div>
+                    <div>
+                        <label>Severity</label>
+                        <select name="severity">
+                            <option {{ "selected" if data.severity=="Low" }}>Low</option>
+                            <option {{ "selected" if data.severity=="Medium" }}>Medium</option>
+                            <option {{ "selected" if data.severity=="High" }}>High</option>
+                        </select>
+                    </div>
+                    <div>
+                         <label>Log Date</label>
+                         <input type="date" name="log_book_entry_date" value="{{ data.log_book_entry_date }}">
+                    </div>
+                </div>
+
+                <h3>Analysis</h3>
+                <div class="form-grid">
+                    <div class="full-width">
+                        <label>Failure Type</label>
+                        <input type="text" name="failure_type" value="{{ data.failure_type }}">
+                    </div>
+                    <div class="full-width">
+                        <label>Symptom</label>
+                        <textarea name="symptom_text">{{ data.symptom_text }}</textarea>
+                    </div>
+                    <div class="full-width">
+                        <label>Root Cause</label>
+                        <textarea name="root_cause">{{ data.root_cause }}</textarea>
+                    </div>
+                    
+                    <div class="full-width">
+                        <label>Repeat Failure?</label>
+                        <div class="radio-box">
+                            <label class="radio-label">
+                                <input type="radio" name="repeat_failure" value="yes" {% if data.repeat_failure %} checked {% endif %}> Yes
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="repeat_failure" value="no" {% if not data.repeat_failure %} checked {% endif %}> No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Technical Logs</h3>
+                <div>
+                    <label><h3>Diagnostic Steps</h3></label>
+                    {% for step in data.diagnostic_steps %}
+                        <textarea name="diagnostic_steps" style="margin-bottom: 10px;">{{ step }}</textarea>
+                    {% endfor %}
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <label><h3>Observations</h3></label>
+                    {% for obs in data.observations %}
+                        <textarea name="observations" style="margin-bottom: 10px;">{{ obs }}</textarea>
+                    {% endfor %}
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <label><h3>Rectification</h3></label>
+                    {% for r in data.rectification %}
+                        <textarea name="rectification" style="margin-bottom: 10px;">{{ r }}</textarea>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <div class="empty-state">
+                    <span class="empty-icon">📂</span>
+                    <h2>Case #{{ case_id }} Not Found</h2>
+                    <p>No data exists for this ID. Use the navigation below to continue.</p>
+                </div>
+            {% endif %}
+
+        </div> <div class="floating-dock">
+            
+            {% if prev_id is not none %}
+                <a href="{{ url_for('review_case', case_id=prev_id) }}" class="btn-nav" title="Previous Case">
+                    &larr;
+                </a>
+            {% else %}
+                <a href="#" class="btn-nav disabled">&larr;</a>
+            {% endif %}
+
+            <button type="submit" class="btn-save" {% if not data %} disabled {% endif %}>
+                Save Changes
+            </button>
+
+            <a href="{{ url_for('review_case', case_id=next_id) }}" class="btn-nav" title="Next Case">
+                &rarr;
+            </a>
+        </div>
+
+    </form>
+
+</body>
+</html>
