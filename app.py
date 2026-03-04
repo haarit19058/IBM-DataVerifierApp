@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "change_this_secret_key"
+app.secret_key = os.environ["SECRET_KEY"]
 
 MONGO_URL = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
 client = MongoClient(MONGO_URL)
