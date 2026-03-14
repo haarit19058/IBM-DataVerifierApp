@@ -325,7 +325,7 @@
                         class="btn-discard" 
                         formaction="{{ url_for('discard_case', case_id=case_id) }}"
                         {% if not data %} disabled {% endif %}>
-                    🗑️ Discard
+                    🗑️ Delete Case
                 </button>
 
                 <button type="submit" class="btn-save" {% if not data %} disabled {% endif %}>
