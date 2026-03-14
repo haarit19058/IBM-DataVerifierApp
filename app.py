@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-
 handlers = [logging.StreamHandler()] 
 if not os.getenv("VERCEL"):
     handlers.append(logging.FileHandler("audit.log"))
@@ -19,11 +17,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
-
-
 app = Flask(__name__)
-app.secret_key = os.environ["SECRET_KEY"]
+app.secret_key = os.environ.get("SECRET_KEY", "fallback_secret_key_for_dev") # Added a fallback just in case
 
 MONGO_URL = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
 client = MongoClient(MONGO_URL)
@@ -43,27 +38,23 @@ def search_case():
 
 @app.route("/discard/<int:case_id>", methods=['GET', 'POST'])
 def discard_case(case_id):
-    prev_id = case_id - 1 if case_id > 0 else None
     next_id = case_id + 1
     
     if request.method == 'POST':
         if collection.count_documents({"case_id": int(case_id)}) > 0:
-            collection.delete_one({"case_id":int(case_id)})
-                        
+            collection.delete_one({"case_id": int(case_id)})
             logger.warning(f"DELETE ACTION | Case ID: {case_id} | Status: PERMANENTLY DELETED")
-            
             flash(f"✅ Case {case_id} Deleted Successfully", "success")
         else:            
             logger.error(f"DELETE FAILED | Case ID: {case_id} | Reason: Not Found")
-            
             flash(f"Cannot Delete. Case {case_id} does not exist.", "danger")
     
-    return redirect(url_for('review_case', case_id=case_id))
+    # FIX: Redirect to the next case automatically so the user isn't stuck on an empty page
+    return redirect(url_for('review_case', case_id=next_id))
 
 
 @app.route("/review/<int:case_id>", methods=['GET', 'POST'])
 def review_case(case_id):
-        
     prev_id = case_id - 1 if case_id > 0 else None
     next_id = case_id + 1
     
@@ -95,13 +86,10 @@ def review_case(case_id):
             }
 
             collection.update_one({"case_id": int(case_id)}, {"$set": update_data})
-                        
             logger.info(f"UPDATE ACTION | Case ID: {case_id} | Payload: {update_data}")
-            
             flash(f"✅ Case {case_id} Saved Successfully", "success")
         else:            
             logger.error(f"UPDATE FAILED | Case ID: {case_id} | Reason: Not Found")
-            
             flash(f"Cannot save. Case {case_id} does not exist.", "danger")
         
         return redirect(url_for('review_case', case_id=case_id))

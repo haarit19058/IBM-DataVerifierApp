@@ -47,3 +47,42 @@
 2026-03-14 23:47:26,676 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:47:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
 2026-03-14 23:47:29,865 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:47:29] "GET /review/1 HTTP/1.1" 200 -
 2026-03-14 23:47:31,208 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:47:31] "GET /review/2 HTTP/1.1" 200 -
+2026-03-14 23:56:28,473 [INFO] - Application Starting...
+2026-03-14 23:56:28,482 [INFO] - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-14 23:56:28,517 [INFO] - [33mPress CTRL+C to quit[0m
+2026-03-14 23:56:28,519 [INFO] -  * Restarting with stat
+2026-03-14 23:56:29,043 [INFO] - Application Starting...
+2026-03-14 23:56:29,047 [WARNING] -  * Debugger is active!
+2026-03-14 23:56:29,048 [INFO] -  * Debugger PIN: 568-627-933
+2026-03-14 23:56:33,626 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:56:33] "[32mGET / HTTP/1.1[0m" 302 -
+2026-03-14 23:56:38,033 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:56:38] "GET /review/1 HTTP/1.1" 200 -
+2026-03-14 23:56:38,145 [INFO] - 127.0.0.1 - - [14/Mar/2026 23:56:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-15 00:03:39,585 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-15 00:03:40,023 [INFO] -  * Restarting with stat
+2026-03-15 00:03:40,884 [INFO] - Application Starting...
+2026-03-15 00:03:40,895 [WARNING] -  * Debugger is active!
+2026-03-15 00:03:40,896 [INFO] -  * Debugger PIN: 568-627-933
+2026-03-15 00:03:41,908 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-15 00:03:42,475 [INFO] -  * Restarting with stat
+2026-03-15 00:03:42,966 [INFO] - Application Starting...
+2026-03-15 00:03:42,971 [WARNING] -  * Debugger is active!
+2026-03-15 00:03:42,971 [INFO] -  * Debugger PIN: 568-627-933
+2026-03-15 00:03:43,979 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-15 00:03:44,538 [INFO] -  * Restarting with stat
+2026-03-15 00:03:44,968 [INFO] - Application Starting...
+2026-03-15 00:03:44,974 [WARNING] -  * Debugger is active!
+2026-03-15 00:03:44,974 [INFO] -  * Debugger PIN: 568-627-933
+2026-03-15 00:03:46,992 [INFO] -  * Detected change in '/mnt/60CE72AACE72785C/Users/Haarit/MyData/Academics/SELF_LEARNING/IBM/FlaskApp/app.py', reloading
+2026-03-15 00:03:47,536 [INFO] -  * Restarting with stat
+2026-03-15 00:03:48,010 [INFO] - Application Starting...
+2026-03-15 00:03:48,016 [WARNING] -  * Debugger is active!
+2026-03-15 00:03:48,017 [INFO] -  * Debugger PIN: 568-627-933
+2026-03-15 00:04:09,133 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:09] "GET /review/1 HTTP/1.1" 200 -
+2026-03-15 00:04:11,591 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:11] "GET /review/1 HTTP/1.1" 200 -
+2026-03-15 00:04:51,235 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:51] "GET /review/2 HTTP/1.1" 200 -
+2026-03-15 00:04:52,394 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:52] "GET /review/3 HTTP/1.1" 200 -
+2026-03-15 00:04:53,475 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:53] "GET /review/4 HTTP/1.1" 200 -
+2026-03-15 00:04:54,480 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:54] "GET /review/5 HTTP/1.1" 200 -
+2026-03-15 00:04:56,282 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:04:56] "GET /review/6 HTTP/1.1" 200 -
+2026-03-15 00:05:00,760 [INFO] - 127.0.0.1 - - [15/Mar/2026 00:05:00] "GET /review/7 HTTP/1.1" 200 -
