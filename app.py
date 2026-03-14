@@ -32,7 +32,7 @@ collection = db['demo_data']
 
 @app.route("/")
 def index():
-    return redirect(url_for('review_case', case_id=str(0)))
+    return redirect(url_for('review_case', case_id=int(1)))
 
 @app.route("/search", methods=['POST'])
 def search_case():
@@ -47,8 +47,8 @@ def discard_case(case_id):
     next_id = case_id + 1
     
     if request.method == 'POST':
-        if collection.count_documents({"case_id": str(case_id)}) > 0:
-            collection.delete_one({"case_id":str(case_id)})
+        if collection.count_documents({"case_id": int(case_id)}) > 0:
+            collection.delete_one({"case_id":int(case_id)})
                         
             logger.warning(f"DELETE ACTION | Case ID: {case_id} | Status: PERMANENTLY DELETED")
             
@@ -68,7 +68,7 @@ def review_case(case_id):
     next_id = case_id + 1
     
     if request.method == 'POST':        
-        if collection.count_documents({"case_id": str(case_id)}) > 0:
+        if collection.count_documents({"case_id": int(case_id)}) > 0:
             diagnostic_steps = request.form.getlist('diagnostic_steps')
             observations = request.form.getlist('observations')
             rectification = request.form.getlist('rectification')
@@ -94,7 +94,7 @@ def review_case(case_id):
                 "rectification": [x for x in rectification if x.strip()],
             }
 
-            collection.update_one({"case_id": str(case_id)}, {"$set": update_data})
+            collection.update_one({"case_id": int(case_id)}, {"$set": update_data})
                         
             logger.info(f"UPDATE ACTION | Case ID: {case_id} | Payload: {update_data}")
             
@@ -106,7 +106,7 @@ def review_case(case_id):
         
         return redirect(url_for('review_case', case_id=case_id))
     
-    data = collection.find_one({"case_id": str(case_id)})
+    data = collection.find_one({"case_id": int(case_id)})
 
     return render_template("review.html", data=data, case_id=case_id, next_id=next_id, prev_id=prev_id)
 

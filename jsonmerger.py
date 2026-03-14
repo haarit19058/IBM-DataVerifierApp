@@ -1,7 +1,7 @@
 import os
 import json
 
-data_path = '../MakingOfNewAgent/data'
+data_path = '../PipeLine/output_jsons'
 dest_path = 'combined.json'
 
 with open(dest_path, 'w') as outfile:
@@ -27,3 +27,15 @@ with open(dest_path, 'w') as outfile:
                     print(f"Error in file {full_path}: {e}")
 
 print("Streaming merge complete.")
+
+
+import json
+
+input_file = "combined.json"
+output_file = "combined_caseid.json"
+
+with open(input_file, "r") as fin, open(output_file, "w") as fout:
+    for i, line in enumerate(fin, start=1):
+        data = json.loads(line)
+        data["case_id"] = i
+        fout.write(json.dumps(data) + "\n")
