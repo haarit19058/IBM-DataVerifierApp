@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import os
 import logging 
 from dotenv import load_dotenv
+from itertools import zip_longest # NEW: Imported to pair steps and observations safely
 
 load_dotenv()
 
@@ -18,7 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "fallback_secret_key_for_dev") # Added a fallback just in case
+app.secret_key = os.environ.get("SECRET_KEY", "fallback_secret_key_for_dev")
 
 MONGO_URL = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
 client = MongoClient(MONGO_URL)
@@ -49,9 +50,7 @@ def discard_case(case_id):
             logger.error(f"DELETE FAILED | Case ID: {case_id} | Reason: Not Found")
             flash(f"Cannot Delete. Case {case_id} does not exist.", "danger")
     
-    # FIX: Redirect to the next case automatically so the user isn't stuck on an empty page
     return redirect(url_for('review_case', case_id=next_id))
-
 
 @app.route("/review/<int:case_id>", methods=['GET', 'POST'])
 def review_case(case_id):
@@ -72,18 +71,33 @@ def review_case(case_id):
                 "line": request.form.get('line'),
                 "rating_kw": request.form.get('rating_kw'),
                 "log_book_entry_date": request.form.get('log_book_entry_date'),
+                "severity": request.form.get('severity'),
+                "skill_level": request.form.get('skill_level'), # NEW FIELD
+                
                 "failure_type": request.form.get('failure_type'),
+                "failure_bucket": request.form.get('failure_bucket'),
+                "single_or_multiple_root_cause_failure": request.form.get('single_or_multiple_root_cause_failure'), # NEW FIELD
+                "number_of_tests_failed": request.form.get('number_of_tests_failed'), # NEW FIELD
+                
                 "symptom_text": request.form.get('symptom_text'),
                 "root_cause": request.form.get('root_cause'),
                 "verification": request.form.get('verification'),
                 "reasoning": request.form.get('reasoning'),
-                "failure_bucket": request.form.get('failure_bucket'),
-                "severity": request.form.get('severity'),
                 "repeat_failure": is_repeat, 
+                
                 "diagnostic_steps": [x for x in diagnostic_steps if x.strip()],
                 "observations": [x for x in observations if x.strip()],
                 "rectification": [x for x in rectification if x.strip()],
             }
+
+            # Convert rating and tests failed to numbers if they exist
+            if update_data["rating_kw"]:
+                try: update_data["rating_kw"] = float(update_data["rating_kw"])
+                except ValueError: pass
+            
+            if update_data["number_of_tests_failed"]:
+                try: update_data["number_of_tests_failed"] = int(update_data["number_of_tests_failed"])
+                except ValueError: pass
 
             collection.update_one({"case_id": int(case_id)}, {"$set": update_data})
             logger.info(f"UPDATE ACTION | Case ID: {case_id} | Payload: {update_data}")
@@ -95,8 +109,14 @@ def review_case(case_id):
         return redirect(url_for('review_case', case_id=case_id))
     
     data = collection.find_one({"case_id": int(case_id)})
+    
+    if data:
+        steps = data.get('diagnostic_steps', [])
+        obs = data.get('observations', [])
+        data['paired_tests'] = list(zip_longest(steps, obs, fillvalue=""))
 
     return render_template("review.html", data=data, case_id=case_id, next_id=next_id, prev_id=prev_id)
+
 
 if __name__ == "__main__":    
     logger.info("Application Starting...")

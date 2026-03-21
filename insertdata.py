@@ -11,6 +11,9 @@ db = client['IBM']
 collection = db['demo_data']
 # ----------- insert data ------------------------------------------
 
+result = collection.delete_many({})
+print(result.deleted_count)
+
 documents = []
 with open("combined_caseid.json", "r") as file:
     for line in file:
@@ -24,5 +27,3 @@ print("Data inserted successfully!")
 
 
 
-# result = collection.delete_many({})
-# print(result.deleted_count)

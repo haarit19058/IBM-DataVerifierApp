@@ -1,7 +1,7 @@
 import os
 import json
 
-data_path = '../PipeLine/output_jsons'
+data_path = '../IBM_Datagen/output_jsons'
 dest_path = 'combined.json'
 
 with open(dest_path, 'w') as outfile:

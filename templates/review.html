@@ -15,7 +15,6 @@
             --border: #e5e7eb;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         * { box-sizing: border-box; }
@@ -45,12 +44,8 @@
         
         .search-group { display: flex; gap: 8px; }
         .search-group input {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #f9fafb;
-            width: 150px;
-            transition: width 0.2s;
+            padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+            background: #f9fafb; width: 150px; transition: width 0.2s;
         }
         .search-group input:focus { width: 200px; outline: 2px solid var(--primary); border-color: transparent; }
         .btn-go {
@@ -59,20 +54,16 @@
         }
 
         .container {
-            max-width: 850px;
+            max-width: 1400px; 
+            width: 95%;
             margin: 40px auto;
             background: var(--surface);
             border-radius: 16px;
             box-shadow: var(--shadow-md);
             padding: 40px;
-            position: relative;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-light);
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
         .empty-icon { font-size: 4rem; margin-bottom: 20px; display: block; opacity: 0.3; }
 
         .flash {
@@ -91,10 +82,12 @@
             padding-bottom: 10px; margin: 30px 0 20px 0;
         }
 
-        .form-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+        .form-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 24px; 
         }
-        .full-width { grid-column: span 2; }
+        .full-width { grid-column: 1 / -1; }
 
         label {
             display: block; font-size: 0.85rem; font-weight: 600;
@@ -111,75 +104,68 @@
             outline: none; border-color: var(--primary); background: white;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-        textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+        
+        textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
 
         .radio-box { display: flex; gap: 20px; padding: 10px 0; }
         .radio-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
         input[type="radio"] { width: auto; transform: scale(1.2); cursor: pointer; }
 
+        .test-list { display: flex; flex-direction: column; gap: 20px; }
+        .test-block {
+            display: flex; gap: 15px; background: #f9fafb; padding: 20px;
+            border: 1px solid var(--border); border-radius: 8px;
+        }
+        .test-controls { display: flex; flex-direction: column; gap: 5px; justify-content: flex-start; }
+        .ctrl-btn {
+            background: white; border: 1px solid var(--border); border-radius: 4px;
+            cursor: pointer; padding: 5px 8px; font-size: 1rem; color: var(--text-light);
+        }
+        .ctrl-btn:hover { background: var(--border); color: var(--text-dark); }
+        .ctrl-btn.del { color: #ef4444; font-size: 0.8rem; font-weight: bold; margin-top: auto;}
+        
+        .test-inputs { flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .test-inputs > div { display: flex; flex-direction: column; }
+        .test-inputs textarea { flex-grow: 1; min-height: 180px; }
+
+        .btn-add-test {
+            background: #e5e7eb; border: 1px dashed #9ca3af; color: #4b5563;
+            width: 100%; padding: 12px; border-radius: 8px; cursor: pointer;
+            font-weight: 600; margin-top: 10px; transition: all 0.2s;
+        }
+        .btn-add-test:hover { background: #f3f4f6; border-color: var(--primary); color: var(--primary); }
+
         .floating-dock {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 100px;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            z-index: 100;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 600px; background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 100px; padding: 10px 15px; display: flex;
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); z-index: 100;
         }
 
         .btn-nav {
-            background: white; border: 1px solid var(--border);
-            color: var(--text-dark);
-            width: 48px; height: 48px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none; font-size: 1.2rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: white; border: 1px solid var(--border); color: var(--text-dark);
+            width: 48px; height: 48px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem;
         }
-        .btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--text-light); }
+        .btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
         .btn-nav.disabled { opacity: 0.3; pointer-events: none; }
 
         .btn-save {
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white; border: none;
-            height: 48px; padding: 0 40px;
-            border-radius: 100px;
-            font-weight: 600; font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            color: white; border: none; height: 48px; padding: 0 40px;
+            border-radius: 100px; font-weight: 600; font-size: 1rem; cursor: pointer;
             display: flex; align-items: center; gap: 8px;
         }
         .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 15px rgba(37, 99, 235, 0.4); }
-        .btn-save:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
-
+        
         .btn-discard {
-            background: #ef4444; 
-            color: white;
-            border: none;
-            height: 48px; 
-            padding: 0 25px;
-            border-radius: 100px;
-            font-weight: 600; 
-            font-size: 0.9rem;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
-            transition: transform 0.2s, background 0.2s;
-            margin-right: 10px; 
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            background: #ef4444; color: white; border: none; height: 48px; padding: 0 25px;
+            border-radius: 100px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+            margin-right: 10px; display: flex; align-items: center; gap: 6px;
         }
         .btn-discard:hover { background: #dc2626; transform: translateY(-2px); }
-        .btn-discard:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; transform: none; }
     </style>
 </head>
 <body>
@@ -209,22 +195,10 @@
 
                 <h3>Machine Details</h3>
                 <div class="form-grid">
-                    <div>
-                        <label>Motor ID</label>
-                        <input type="text" name="motor_id" value="{{ data.motor_id }}">
-                    </div>
-                    <div>
-                        <label>Rating (kW)</label>
-                        <input type="number" step="0.01" name="rating_kw" value="{{ data.rating_kw }}">
-                    </div>
-                    <div>
-                        <label>Area</label>
-                        <input type="text" name="area" value="{{ data.area }}">
-                    </div>
-                    <div>
-                        <label>Line</label>
-                        <input type="text" name="line" value="{{ data.line }}">
-                    </div>
+                    <div><label>Motor ID</label><input type="text" name="motor_id" value="{{ data.motor_id }}"></div>
+                    <div><label>Rating (kW)</label><input type="number" step="0.01" name="rating_kw" value="{{ data.rating_kw }}"></div>
+                    <div><label>Area</label><input type="text" name="area" value="{{ data.area }}"></div>
+                    <div><label>Line</label><input type="text" name="line" value="{{ data.line }}"></div>
                     <div>
                         <label>Severity</label>
                         <select name="severity">
@@ -233,111 +207,176 @@
                             <option value="High" {% if data.severity == "High" %}selected{% endif %}>High</option>
                         </select>
                     </div>
-                    <div>
-                         <label>Log Date</label>
-                         <input type="date" name="log_book_entry_date" value="{{ data.log_book_entry_date }}">
-                    </div>
+                    <div><label>Log Date</label><input type="date" name="log_book_entry_date" value="{{ data.log_book_entry_date }}"></div>
+                    <div><label>Skill Level Required</label><input type="text" name="skill_level" value="{{ data.skill_level if data.skill_level else '' }}"></div>
                 </div>
 
                 <h3>Analysis</h3>
                 <div class="form-grid">
-                    <div class="full-width">
-                        <label>Failure Type</label>
-                        <input type="text" name="failure_type" value="{{ data.failure_type }}">
-                    </div>
+                    <div><label>Failure Type</label><input type="text" name="failure_type" value="{{ data.failure_type }}"></div>
+                    <div><label>Failure Bucket</label><input type="text" name="failure_bucket" value="{{ data.failure_bucket if data.failure_bucket else '' }}"></div>
                     
-                    <div class="full-width">
-                        <label>Failure Bucket</label>
-                        <input type="text" name="failure_bucket" value="{{ data.failure_bucket if data.failure_bucket else '' }}">
+                    <div>
+                        <label>Single or Multiple Root Cause</label>
+                        <input type="text" name="single_or_multiple_root_cause_failure" placeholder="e.g. Single root cause failure" value="{{ data.single_or_multiple_root_cause_failure if data.single_or_multiple_root_cause_failure else '' }}">
                     </div>
-
-                    <div class="full-width">
-                        <label>Symptom</label>
-                        <textarea name="symptom_text">{{ data.symptom_text }}</textarea>
-                    </div>
-                    <div class="full-width">
-                        <label>Root Cause</label>
-                        <textarea name="root_cause">{{ data.root_cause }}</textarea>
+                    <div>
+                        <label>Number of Tests Failed</label>
+                        <input type="number" name="number_of_tests_failed" value="{{ data.number_of_tests_failed if data.number_of_tests_failed else '0' }}">
                     </div>
                     
                     <div class="full-width">
                         <label>Repeat Failure?</label>
                         <div class="radio-box">
-                            <label class="radio-label">
-                                <input type="radio" name="repeat_failure" value="yes" {% if data.repeat_failure %} checked {% endif %}> Yes
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="repeat_failure" value="no" {% if not data.repeat_failure %} checked {% endif %}> No
-                            </label>
+                            <label class="radio-label"><input type="radio" name="repeat_failure" value="yes" {% if data.repeat_failure %} checked {% endif %}> Yes</label>
+                            <label class="radio-label"><input type="radio" name="repeat_failure" value="no" {% if not data.repeat_failure %} checked {% endif %}> No</label>
                         </div>
                     </div>
+                    
+                    <div class="full-width"><label>Symptom</label><textarea name="symptom_text" rows="4">{{ data.symptom_text }}</textarea></div>
+                    <div class="full-width"><label>Root Cause</label><textarea name="root_cause" rows="4">{{ data.root_cause }}</textarea></div>
                 </div>
 
-                <h3>Technical Logs</h3>
-                <div>
-                    <label><h3>Diagnostic Steps</h3></label>
-                    {% for step in data.diagnostic_steps %}
-                        <textarea name="diagnostic_steps" style="margin-bottom: 10px;">{{ step }}</textarea>
+                <h3>Diagnostic Tests & Observations (Priority Order)</h3>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-top:-10px; margin-bottom: 20px;">
+                    Order from top (highest priority) to bottom. Use the arrows to reorder.
+                </p>
+
+                <div class="test-list" id="testList">
+                    {% for step, obs in data.paired_tests %}
+                    <div class="test-block">
+                        <div class="test-controls">
+                            <button type="button" class="ctrl-btn" onclick="moveUp(this)" title="Move Up">↑</button>
+                            <button type="button" class="ctrl-btn" onclick="moveDown(this)" title="Move Down">↓</button>
+                            <button type="button" class="ctrl-btn del" onclick="removeBlock(this)" title="Delete">X</button>
+                        </div>
+                        <div class="test-inputs">
+                            <div>
+                                <label>Diagnostic Step</label>
+                                <textarea name="diagnostic_steps">{{ step }}</textarea>
+                            </div>
+                            <div>
+                                <label>Observation</label>
+                                <textarea name="observations">{{ obs }}</textarea>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                    <textarea name="diagnostic_steps" placeholder="Add new diagnostic step..." style="margin-bottom: 10px;"></textarea>
+                </div>
+                <button type="button" class="btn-add-test" onclick="addTestPair()">+ Add New Test Pair</button>
+
+
+                <div style="margin-top: 40px;">
+                <label><h3>Rectification Steps</h3></label>
+                
+                <div id="rectificationList" style="display: flex; flex-direction: column; gap: 10px;">
+                    {% for r in data.rectification %}
+                    <div class="rectification-row" style="display: flex; gap: 10px; align-items: flex-start;">
+                        <textarea name="rectification" rows="2" style="flex-grow: 1; min-height: 60px;">{{ r }}</textarea>
+                        <button type="button" class="ctrl-btn del" onclick="this.parentElement.remove()" title="Delete" style="margin-top: 5px;">X</button>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="rectification-row" style="display: flex; gap: 10px; align-items: flex-start;">
+                        <textarea name="rectification" rows="2" style="flex-grow: 1; min-height: 60px;" placeholder="Add new rectification..."></textarea>
+                        <button type="button" class="ctrl-btn del" onclick="this.parentElement.remove()" title="Delete" style="margin-top: 5px;">X</button>
+                    </div>
                 </div>
                 
-                <div style="margin-top: 20px;">
-                    <label><h3>Observations</h3></label>
-                    {% for obs in data.observations %}
-                        <textarea name="observations" style="margin-bottom: 10px;">{{ obs }}</textarea>
-                    {% endfor %}
-                    <textarea name="observations" placeholder="Add new observation..." style="margin-bottom: 10px;"></textarea>
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <label><h3>Rectification</h3></label>
-                    {% for r in data.rectification %}
-                        <textarea name="rectification" style="margin-bottom: 10px;">{{ r }}</textarea>
-                    {% endfor %}
-                    <textarea name="rectification" placeholder="Add new rectification..." style="margin-bottom: 10px;"></textarea>
-                </div>
+                <button type="button" class="btn-add-test" onclick="addRectificationStep()">+ Add New Rectification Step</button>
+            </div>
 
                 <h3>Verification</h3>
-                <textarea name="verification">{{ data.verification }}</textarea>
+                <textarea name="verification" rows="4">{{ data.verification }}</textarea>
+                
                 <h3>Reasoning</h3>
-                <textarea name="reasoning">{{ data.reasoning }}</textarea>
+                <textarea name="reasoning" rows="6">{{ data.reasoning }}</textarea>
 
             {% else %}
                 <div class="empty-state">
                     <span class="empty-icon">📂</span>
                     <h2>Case #{{ case_id }} Not Found</h2>
-                    <p>No data exists for this ID. Use the navigation below to continue.</p>
+                    <p>No data exists for this ID.</p>
                 </div>
             {% endif %}
 
-        </div> <div class="floating-dock">
+        </div> 
+        
+        <div class="floating-dock">
             {% if prev_id is not none %}
-                <a href="{{ url_for('review_case', case_id=prev_id) }}" class="btn-nav" title="Previous Case">
-                    &larr;
-                </a>
+                <a href="{{ url_for('review_case', case_id=prev_id) }}" class="btn-nav" title="Previous Case">&larr;</a>
             {% else %}
                 <a href="#" class="btn-nav disabled">&larr;</a>
             {% endif %}
 
             <div style="display: flex; align-items: center;">
-                <button type="submit" 
-                        class="btn-discard" 
-                        formaction="{{ url_for('discard_case', case_id=case_id) }}"
-                        {% if not data %} disabled {% endif %}>
+                <button type="submit" class="btn-discard" formaction="{{ url_for('discard_case', case_id=case_id) }}" {% if not data %} disabled {% endif %}>
                     🗑️ Delete Case
                 </button>
-
                 <button type="submit" class="btn-save" {% if not data %} disabled {% endif %}>
                     💾 Save Changes
                 </button>
             </div>
 
-            <a href="{{ url_for('review_case', case_id=next_id) }}" class="btn-nav" title="Next Case">
-                &rarr;
-            </a>
+            <a href="{{ url_for('review_case', case_id=next_id) }}" class="btn-nav" title="Next Case">&rarr;</a>
         </div>
     </form>
 
+    <script>
+        function moveUp(btn) {
+            const block = btn.closest('.test-block');
+            if (block.previousElementSibling) {
+                block.parentNode.insertBefore(block, block.previousElementSibling);
+            }
+        }
+
+        function moveDown(btn) {
+            const block = btn.closest('.test-block');
+            if (block.nextElementSibling) {
+                block.parentNode.insertBefore(block.nextElementSibling, block);
+            }
+        }
+
+        function removeBlock(btn) {
+            const block = btn.closest('.test-block');
+            block.remove();
+        }
+
+        function addTestPair() {
+            const list = document.getElementById('testList');
+            const newBlock = document.createElement('div');
+            newBlock.className = 'test-block';
+            newBlock.innerHTML = `
+                <div class="test-controls">
+                    <button type="button" class="ctrl-btn" onclick="moveUp(this)">↑</button>
+                    <button type="button" class="ctrl-btn" onclick="moveDown(this)">↓</button>
+                    <button type="button" class="ctrl-btn del" onclick="removeBlock(this)">X</button>
+                </div>
+                <div class="test-inputs">
+                    <div>
+                        <label>Diagnostic Step</label>
+                        <textarea name="diagnostic_steps" placeholder="Enter diagnostic step..."></textarea>
+                    </div>
+                    <div>
+                        <label>Observation</label>
+                        <textarea name="observations" placeholder="Enter observation..."></textarea>
+                    </div>
+                </div>
+            `;
+            list.appendChild(newBlock);
+        }
+
+        function addRectificationStep() {
+            const list = document.getElementById('rectificationList');
+            const newRow = document.createElement('div');
+            newRow.className = 'rectification-row';
+            newRow.style.cssText = "display: flex; gap: 10px; align-items: flex-start;";
+            newRow.innerHTML = `
+                <textarea name="rectification" rows="2" style="flex-grow: 1; min-height: 60px;" placeholder="Enter new rectification step..."></textarea>
+                <button type="button" class="ctrl-btn del" onclick="this.parentElement.remove()" title="Delete" style="margin-top: 5px;">X</button>
+            `;
+            list.appendChild(newRow);
+        }
+    </script>
 </body>
 </html>
